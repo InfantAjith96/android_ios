@@ -472,14 +472,33 @@ class CupertinoAlertDialogExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return CupertinoPageScaffold(
+    //   navigationBar: const CupertinoNavigationBar(
+    //     middle: Text('CupertinoAlertDialog Sample'),
+    //   ),
+    //   child: Center(
+    //     child: CupertinoButton(
+    //       onPressed: () => _showAlertDialog(context),
+    //       child: const Text('CupertinoAlertDialog'),
+    //     ),
+    //   ),
+    // );
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('CupertinoAlertDialog Sample'),
-      ),
+      // navigationBar: const CupertinoNavigationBar(
+      //   middle: Text('CupertinoButton Sample'),
+      // ),
       child: Center(
         child: CupertinoButton(
+          color: Colors.blue,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          child: Text(
+            'CupertinoAlertDialog',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
           onPressed: () => _showAlertDialog(context),
-          child: const Text('CupertinoAlertDialog'),
         ),
       ),
     );
