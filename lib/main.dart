@@ -43,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   double _currentSliderValueCupertino = 0.0;
   String? _sliderStatus;
   bool isChecked = false;
+  bool _passwordVisible = false;
+  bool _isLoading = false;
   SingingCharacter? _character = SingingCharacter.lafayette;
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -121,6 +123,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ? const Text('Remove customization')
                                 : const Text('Add customization'),
                           ),
+                          const SizedBox(height: 20),
+                          isMaterial ? buildMaterialLoginForm() : buildCupertinoLoginForm(),
                           const SizedBox(height: 20),
                           const SwitchWithLabel(label: 'enabled', enabled: true),
                           const SwitchWithLabel(label: 'disabled', enabled: false),
@@ -403,6 +407,192 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  /// Material login form for Android
+  Widget buildMaterialLoginForm() {
+
+    return Column(
+      children: [
+        Card(
+          margin: EdgeInsets.all(16.0),
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Material Form',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Enter username',
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: Colors.deepPurple,
+                      )),
+                  textInputAction: TextInputAction.next,
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Enter password',
+                    prefixIcon: Icon(
+                      Icons.lock_outline_rounded,
+                      color: Colors.deepPurple[700],
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _passwordVisible ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.deepPurple[700],
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _passwordVisible = !_passwordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  textInputAction: TextInputAction.done,
+                  obscureText: !_passwordVisible,
+                ),
+                SizedBox(height: 16.0),
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8, // Set the desired width
+                  child: MaterialButton(
+                    onPressed: () {},
+                    color: Colors.deepPurple[700],
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    height: 50,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Cupertino login form for iOS
+  Widget buildCupertinoLoginForm() {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: CupertinoColors.systemGrey6, // iOS-like background color
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: CupertinoColors.systemGrey.withOpacity(0.5), // iOS-like shadow
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Cupertino Form',
+                style: TextStyle(
+                  color: CupertinoColors.link,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              CupertinoTextField(
+                placeholder: 'Enter username',
+                keyboardType: TextInputType.emailAddress,
+                prefix: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Icon(
+                    CupertinoIcons.mail,
+                    color: CupertinoColors.link, // iOS grey icon color
+                  ),
+                ),
+                padding: const EdgeInsets.all(12.0),
+                textInputAction: TextInputAction.next,
+              ),
+              const SizedBox(height: 16.0),
+              CupertinoTextField(
+                placeholder: 'Enter password',
+                obscureText: !_passwordVisible,
+                prefix: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Icon(
+                    CupertinoIcons.lock,
+                    color: CupertinoColors.link, // iOS grey icon color
+                  ),
+                ),
+                suffix: CupertinoButton(
+                  padding: const EdgeInsets.all(0),
+                  onPressed: () {
+                    setState(() {
+                      _passwordVisible = !_passwordVisible;
+                    });
+                  },
+                  child: Icon(
+                    _passwordVisible
+                        ? CupertinoIcons.eye_slash_fill
+                        : CupertinoIcons.eye_fill,
+                    color: CupertinoColors.link, // iOS grey icon color
+                  ),
+                ),
+                padding: const EdgeInsets.all(12.0),
+                textInputAction: TextInputAction.done,
+              ),
+              const SizedBox(height: 16.0),
+              _isLoading
+                  ? const CupertinoActivityIndicator()
+                  : Container(
+                width: double.infinity,
+                height: 48.0,
+                decoration: BoxDecoration(
+                  color: CupertinoColors.activeBlue, // iOS default blue color
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: CupertinoButton(
+                  onPressed: () {
+                    // Handle sign in
+                  },
+                  padding: EdgeInsets.zero, // No padding since we handle it in the container
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(color: CupertinoColors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+  }
 }
 
 class AlertDialogExample extends StatelessWidget {
@@ -410,7 +600,7 @@ class AlertDialogExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return ElevatedButton(
       onPressed: () => showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
