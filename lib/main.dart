@@ -404,6 +404,49 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ),
+        bottomNavigationBar: isMaterial
+            ? BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_none_rounded),
+                label: 'Notifications'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.mail_outline_outlined),
+                label: 'Messages'
+            ),
+          ]
+        )
+            : CupertinoTabBar(
+          currentIndex: 0,
+          activeColor: CupertinoColors.activeBlue,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.home),
+                label: 'Home'
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.bell),
+                label: 'Notifications'
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.mail),
+              label: 'Messages'
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.settings),
+              label: 'Settings'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.person),
+                label: 'Profile'
+            ),
+          ],
+        )
       ),
     );
   }
